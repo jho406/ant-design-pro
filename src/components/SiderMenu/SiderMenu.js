@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import pathToRegexp from 'path-to-regexp';
-import { Link } from 'dva/router';
 import styles from './index.less';
 import { urlToList } from '../_utils/pathTools';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
+const Noop = () => (null);
 
 // Allow menu.js config icon as string or ReactNode
 //   icon: 'setting',
@@ -58,6 +58,11 @@ export default class SiderMenu extends PureComponent {
       openKeys: this.getDefaultCollapsedSubMenus(props),
     };
   }
+
+  getLink() {
+    return <Noop></Noop>;
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.setState({
@@ -82,6 +87,7 @@ export default class SiderMenu extends PureComponent {
   getMenuItemPath = item => {
     const itemPath = this.conversionPath(item.path);
     const icon = getIcon(item.icon);
+    const Link = this.getLink();
     const { target, name } = item;
     // Is it a http link
     if (/^https?:\/\//.test(itemPath)) {
@@ -191,6 +197,7 @@ export default class SiderMenu extends PureComponent {
     });
   };
   render() {
+    const Link = this.getLink();
     const { logo, collapsed, onCollapse } = this.props;
     const { openKeys } = this.state;
     // Don't show popup menu when it is been collapsed

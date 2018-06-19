@@ -3,15 +3,21 @@ import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip } from 'antd'
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
-import { Link } from 'dva/router';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
+
+const Noop = () => (null);
 
 export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
+
+  getLink() {
+    return <Noop></Noop>;
+  }
+
   getNoticeData() {
     const { notices = [] } = this.props;
     if (notices.length === 0) {
@@ -84,6 +90,7 @@ export default class GlobalHeader extends PureComponent {
       </Menu>
     );
     const noticeData = this.getNoticeData();
+    const Link = this.getLink();
     return (
       <div className={styles.header}>
         {isMobile && [
