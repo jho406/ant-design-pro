@@ -3,7 +3,6 @@ import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip } from 'antd'
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
-import { Link } from 'dva/router';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
@@ -12,6 +11,11 @@ export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
+
+  getLogoLink() {
+    return null
+  }
+
   getNoticeData() {
     const { notices = [] } = this.props;
     if (notices.length === 0) {
@@ -87,9 +91,7 @@ export default class GlobalHeader extends PureComponent {
     return (
       <div className={styles.header}>
         {isMobile && [
-          <Link to="/" className={styles.logo} key="logo">
-            <img src={logo} alt="logo" width="32" />
-          </Link>,
+          this.getLogoLink(),
           <Divider type="vertical" key="line" />,
         ]}
         <Icon
